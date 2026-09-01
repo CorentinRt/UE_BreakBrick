@@ -32,3 +32,15 @@ void ABrick_Base::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ABrick_Base::Bounced_Implementation()
+{
+	IBouncable::Bounced_Implementation();
+	
+}
+
+void ABrick_Base::Destruct_Implementation()
+{
+	IDestructible::Destruct_Implementation();
+	
+}
+

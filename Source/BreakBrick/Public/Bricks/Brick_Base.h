@@ -3,13 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Bouncable/Bouncable.h"
+#include "Destructible/Destructible.h"
 #include "GameFramework/Actor.h"
 #include "Brick_Base.generated.h"
 
 class UBoxComponent;
 
 UCLASS()
-class BREAKBRICK_API ABrick_Base : public AActor
+class BREAKBRICK_API ABrick_Base : public AActor, public IBouncable, public IDestructible
 {
 	GENERATED_BODY()
 
@@ -24,6 +26,15 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	
+public:
+	
+	// IBouncable
+	virtual void Bounced_Implementation() override;
+	
+	// IDestructible
+	virtual void Destruct_Implementation() override;
 	
 	
 public:
