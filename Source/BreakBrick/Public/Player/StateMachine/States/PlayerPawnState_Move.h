@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Player/StateMachine/PlayerPawnState.h"
-#include "UPlayerPawnState_Move.generated.h"
+#include "PlayerPawnState_Move.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BREAKBRICK_API UUPlayerPawnState_Move : public UPlayerPawnState
+class BREAKBRICK_API UPlayerPawnState_Move : public UPlayerPawnState
 {
 	GENERATED_BODY()
 	
@@ -24,4 +24,14 @@ public:
 	virtual void StateExit(EPlayerPawnStateID NextState) override;
 
 	virtual void StateTick(float DeltaTime) override;
+	
+private:
+	
+	UFUNCTION()
+	void OnMove(float InMoveValue);
+	
+	
+	UPROPERTY()
+	float MoveDir = 0.f;
+	
 };

@@ -13,7 +13,7 @@ class UPlayerStateMachine;
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class BREAKBRICK_API UPlayerPawnState : public UObject
 {
 	GENERATED_BODY()
@@ -51,4 +51,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void ChangeState(EPlayerPawnStateID NextStateID);
+	
+	UFUNCTION(BlueprintCallable)
+	void UpdatePlayerMovementsX(const float InDir, float InMultiplier);
 };

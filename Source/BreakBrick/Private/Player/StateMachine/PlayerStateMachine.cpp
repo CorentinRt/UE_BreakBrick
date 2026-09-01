@@ -5,6 +5,9 @@
 
 #include "Player/Player_BB.h"
 #include "Player/StateMachine/PlayerPawnState.h"
+#include "Player/StateMachine/States/PlayerPawnState_Idle.h"
+#include "Player/StateMachine/States/PlayerPawnState_LaunchBall.h"
+#include "Player/StateMachine/States/PlayerPawnState_Move.h"
 
 void UPlayerStateMachine::Init(APlayer_BB* InPawn)
 {
@@ -107,17 +110,21 @@ void UPlayerStateMachine::CreateStateById(EPlayerPawnStateID stateId)
 	{
 		
 	case EPlayerPawnStateID::NONE:
+		break;
 		
-		break;
 	case EPlayerPawnStateID::IDLE:
+		OutState = NewObject<UPlayerPawnState_Idle>(this, BpParentClass);
 		break;
+		
 	case EPlayerPawnStateID::MOVE:
+		OutState = NewObject<UPlayerPawnState_Move>(this, BpParentClass);
 		break;
 	case EPlayerPawnStateID::LAUNCH_BALL:
+		OutState = NewObject<UPlayerPawnState_LaunchBall>(this, BpParentClass);
 		break;
 	case EPlayerPawnStateID::LOCKED:
 		break;
-	default: 
+	default:
 		break;
 	}
 	

@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Player/StateMachine/PlayerPawnState.h"
-#include "UPlayerPawnState_LaunchBall.generated.h"
+#include "PlayerPawnState_LaunchBall.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BREAKBRICK_API UUPlayerPawnState_LaunchBall : public UPlayerPawnState
+class BREAKBRICK_API UPlayerPawnState_LaunchBall : public UPlayerPawnState
 {
 	GENERATED_BODY()
 	

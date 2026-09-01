@@ -24,4 +24,10 @@ public:
 	virtual void StateExit(EPlayerPawnStateID NextState) override;
 
 	virtual void StateTick(float DeltaTime) override;
+	
+private:
+	
+	UFUNCTION()
+	void OnMove(float InMoveValue);
+	
 };

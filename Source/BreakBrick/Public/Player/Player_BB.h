@@ -8,6 +8,7 @@
 #include "StateMachine/PlayerPawnStateID.h"
 #include "Player_BB.generated.h"
 
+class UFloatingPawnMovement;
 class UPlayerStateMachine;
 class UPlayerPawnState;
 class UPlayerDatas_BB;
@@ -46,6 +47,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TObjectPtr<UStaticMeshComponent> PlayerMesh;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TObjectPtr<UFloatingPawnMovement> FloatingPawnMovement;
 	
 	
 #pragma endregion

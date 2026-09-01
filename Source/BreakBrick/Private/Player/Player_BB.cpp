@@ -6,6 +6,7 @@
 #include "BreakBrick.h"
 #include "EnhancedInputComponent.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 #include "Player/StateMachine/PlayerStateMachine.h"
 
 
@@ -17,6 +18,7 @@ APlayer_BB::APlayer_BB()
 	
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	PlayerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
+	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 	
 	SetRootComponent(BoxCollision);
 	PlayerMesh->SetupAttachment(BoxCollision);

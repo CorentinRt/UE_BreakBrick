@@ -34,7 +34,7 @@ void UPlayerPawnState::StateInit(UPlayerStateMachine* InStateMachine)
 
 void UPlayerPawnState::StateEnter(EPlayerPawnStateID PreviousState)
 {
-	
+	ReceiveStateEnter(PreviousState);
 }
 
 void UPlayerPawnState::StateExit(EPlayerPawnStateID NextState)
@@ -53,4 +53,12 @@ void UPlayerPawnState::ChangeState(EPlayerPawnStateID NextStateID)
 		return;
 	
 	StateMachine->ChangeState(NextStateID);
+}
+
+void UPlayerPawnState::UpdatePlayerMovementsX(const float InDir, float InMultiplier)
+{
+	if (!IsValid(Pawn))
+		return;
+	
+	Pawn->RightMovementAction(InDir, InMultiplier);
 }
