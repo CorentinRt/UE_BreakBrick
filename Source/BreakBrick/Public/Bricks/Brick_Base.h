@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Brick_Base.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class BREAKBRICK_API ABrick_Base : public AActor
 {
@@ -22,4 +24,16 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	
+public:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UBoxComponent> BoxCollision;
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UStaticMeshComponent> BrickMesh;
+	
+	
 };

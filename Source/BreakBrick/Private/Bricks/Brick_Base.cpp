@@ -3,12 +3,20 @@
 
 #include "Public/Bricks/Brick_Base.h"
 
+#include "Components/BoxComponent.h"
+
 
 // Sets default values
 ABrick_Base::ABrick_Base()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+	
+	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+	BrickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BrickMesh"));
+	
+	SetRootComponent(BoxCollision);
+	BrickMesh->SetupAttachment(BoxCollision);
 }
 
 // Called when the game starts or when spawned
