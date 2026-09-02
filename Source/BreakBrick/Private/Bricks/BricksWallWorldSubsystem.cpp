@@ -3,6 +3,8 @@
 
 #include "Bricks/BricksWallWorldSubsystem.h"
 
+#include "Bricks/BricksWall_Datas.h"
+#include "Bricks/BricksWall_Settings.h"
 #include "Bricks/Brick_Base.h"
 
 void UBricksWallWorldSubsystem::PostInitialize()
@@ -28,18 +30,33 @@ void UBricksWallWorldSubsystem::Init()
 	if (bHasBeenInit)
 		return;
 	
+	LoadBricksWallDatasFromConfig();
+	
 	ClearBricksWall();
+}
+
+void UBricksWallWorldSubsystem::LoadBricksWallDatasFromConfig()
+{
+	const UBricksWall_Settings* BricksWall_Settings = GetDefault<UBricksWall_Settings>();
+	
+	if (!IsValid(BricksWall_Settings))
+		return;
+	
+	Datas = BricksWall_Settings->BricksWall_Datas.LoadSynchronous();
 }
 
 void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 {
+	if (!IsValid(Datas))
+		return;
+	
 	if (!AllBricks.IsEmpty())
 	{
 		ClearBricksWall();
 	}
 	
-	int TempXSize = 5;
-	int TempYSize = 7;
+	int TempXSize = Datas->TotalX;
+	int TempYSize = Datas->TotalY;
 	
 	ABrick_Base* Brick = nullptr;
 	
@@ -61,7 +78,32 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 
 ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 {
-	ABrick_Base* Brick = GetWorld()->SpawnActor<ABrick_Base>();
+	if (Datas->BricksIdToSubClasses.IsEmpty())
+		return nullptr;
+	
+	EBrickID BrickIDToCreate = EBrickID::SIMPLE;
+	
+	ABrick_Base* Brick = nullptr;
+	
+	const TSubclassOf<ABrick_Base>* BrickClass = Datas->BricksIdToSubClasses.Find(BrickIDToCreate);
+	
+	if (!BrickClass || !*BrickClass)
+	{
+		return nullptr;
+	}
+	
+	float GapX = InX * Datas->XSpaceBetween;
+	float GapY = -InY * Datas->YSpaceBetween;
+	
+	switch (BrickIDToCreate)
+	{
+	case EBrickID::SIMPLE:
+		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(0.f, GapX, GapY), FRotator::ZeroRotator);
+		break;
+	default:
+		break;
+	}
+	
 	
 	return Brick;
 }

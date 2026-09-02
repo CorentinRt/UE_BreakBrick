@@ -6,6 +6,7 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "BricksWallWorldSubsystem.generated.h"
 
+class UBricksWall_Datas;
 class ABrick_Base;
 
 /**
@@ -29,6 +30,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Init();
 	
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<UBricksWall_Datas> Datas;
+	
+private:
+	
+	UFUNCTION()
+	void LoadBricksWallDatasFromConfig();
+	
+public:
 	
 	UFUNCTION(BlueprintCallable)
 	void GenerateNewBricksWall();

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BrickID.h"
 #include "Bouncable/Bouncable.h"
 #include "Destructible/Destructible.h"
 #include "GameFramework/Actor.h"
@@ -27,6 +28,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EBrickID BrickID;
 	
 public:
 	

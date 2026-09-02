@@ -17,6 +17,8 @@ void AGameMode_BB::InitSubsystems()
 {
 	InitCameraWorldSubsystem();
 	
+	InitBricksWallSubsystem();
+	
 	ReceiveInitSubsystems();
 }
 
@@ -40,7 +42,7 @@ void AGameMode_BB::InitBricksWallSubsystem()
 	
 	BricksWallWorldSubsystem = GetWorld()->GetSubsystem<UBricksWallWorldSubsystem>();
 	
-	if (!BricksWallWorldSubsystem)
+	if (!IsValid(BricksWallWorldSubsystem))
 		return;
 	
 	BricksWallWorldSubsystem->Init();
@@ -48,6 +50,9 @@ void AGameMode_BB::InitBricksWallSubsystem()
 
 void AGameMode_BB::StartGame()
 {
+	if (!IsValid(BricksWallWorldSubsystem))
+		return;
+	
 	BricksWallWorldSubsystem->GenerateNewBricksWall();
 	
 	GEngine->AddOnScreenDebugMessage(
