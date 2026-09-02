@@ -3,8 +3,11 @@
 
 #include "Game/GameMode_BB.h"
 
+#include "BreakBrick.h"
+#include "Ball/Ball_BB.h"
 #include "Bricks/BricksWallWorldSubsystem.h"
 #include "Camera/CameraWorldSubsystem.h"
+#include "Kismet/GameplayStatics.h"
 
 void AGameMode_BB::BeginPlay()
 {
@@ -18,6 +21,8 @@ void AGameMode_BB::InitSubsystems()
 	InitCameraWorldSubsystem();
 	
 	InitBricksWallSubsystem();
+	
+	InitMainBall();
 	
 	ReceiveInitSubsystems();
 }
@@ -46,6 +51,44 @@ void AGameMode_BB::InitBricksWallSubsystem()
 		return;
 	
 	BricksWallWorldSubsystem->Init();
+}
+
+void AGameMode_BB::InitMainBall()
+{
+	GetMainBall();
+	
+	if (!IsValid(MainBall))
+		return;
+	
+	MainBall->Init();
+}
+
+void AGameMode_BB::GetMainBall()
+{
+	if (!GetWorld())
+		return;
+	
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), MainBallTag, FoundActors);
+	
+	if (!FoundActors.IsEmpty())
+	{
+		for (AActor* FoundActor : FoundActors)
+		{
+			if (FoundActor == nullptr)
+				continue;
+
+			MainBall = Cast<ABall_BB>(FoundActor);
+
+			if (MainBall != nullptr)
+				break;
+		}
+	}
+	
+	if (!IsValid(MainBall))
+	{
+		UE_LOGFMT(LogBreakBrick, Error, "Error : No Main Ball Found in the Level ! Ball won't launch and game won't work !");
+	}
 }
 
 void AGameMode_BB::StartGame()

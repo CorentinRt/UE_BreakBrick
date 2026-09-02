@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameMode_BB.generated.h"
 
+class ABall_BB;
 class UBricksWallWorldSubsystem;
 /**
  * 
@@ -32,16 +33,30 @@ protected:
 	UFUNCTION()
 	void InitBricksWallSubsystem();
 	
+	UFUNCTION()
+	void InitMainBall();
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void ReceiveInitSubsystems();
+	
+	UFUNCTION()
+	void GetMainBall();
 	
 private:
 	
 	UPROPERTY()
 	UBricksWallWorldSubsystem* BricksWallWorldSubsystem;
 	
+	UPROPERTY()
+	FName MainBallTag = "MainBall";
+	
+	
 public:
 	
 	UFUNCTION(BlueprintCallable)
 	void StartGame();
+	
+	
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	TObjectPtr<ABall_BB> MainBall;
 };
