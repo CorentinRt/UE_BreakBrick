@@ -40,7 +40,11 @@ void ABrick_Base::Bounced_Implementation()
 
 void ABrick_Base::Destruct_Implementation()
 {
+	if (!IsValid(this))
+		return;
+	
 	IDestructible::Destruct_Implementation();
 	
+	OnBrickDestruct.Broadcast(this);
 }
 

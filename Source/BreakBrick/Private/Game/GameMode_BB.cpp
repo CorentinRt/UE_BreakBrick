@@ -3,6 +3,7 @@
 
 #include "Game/GameMode_BB.h"
 
+#include "Bricks/BricksWallWorldSubsystem.h"
 #include "Camera/CameraWorldSubsystem.h"
 
 void AGameMode_BB::BeginPlay()
@@ -30,4 +31,29 @@ void AGameMode_BB::InitCameraWorldSubsystem()
 		return;
 	
 	CameraWorldSubsystem->Init();
+}
+
+void AGameMode_BB::InitBricksWallSubsystem()
+{
+	if (!GetWorld())
+		return;
+	
+	BricksWallWorldSubsystem = GetWorld()->GetSubsystem<UBricksWallWorldSubsystem>();
+	
+	if (!BricksWallWorldSubsystem)
+		return;
+	
+	BricksWallWorldSubsystem->Init();
+}
+
+void AGameMode_BB::StartGame()
+{
+	BricksWallWorldSubsystem->GenerateNewBricksWall();
+	
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		5.f,
+		FColor::Orange,
+		"Start Game !"
+		);
 }

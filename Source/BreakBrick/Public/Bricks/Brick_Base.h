@@ -37,6 +37,9 @@ public:
 	virtual void Destruct_Implementation() override;
 	
 	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBrickDestruct, ABrick_Base*, InBrick);
+	FOnBrickDestruct OnBrickDestruct;
+	
 public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
