@@ -36,15 +36,25 @@ void ABrick_Base::Bounced_Implementation()
 {
 	IBouncable::Bounced_Implementation();
 	
+	ReceiveOnBounced();
 }
 
 void ABrick_Base::Destruct_Implementation()
 {
+	IDestructible::Destruct_Implementation();
+	
 	if (!IsValid(this))
 		return;
 	
-	IDestructible::Destruct_Implementation();
-	
 	OnBrickDestruct.Broadcast(this);
+	
+	ReceiveOnDestruct();
+	
+	if (IsValid(this))
+	{
+		this->Destroy();
+		return;
+	}
+	
 }
 

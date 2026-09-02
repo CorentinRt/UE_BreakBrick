@@ -36,9 +36,15 @@ public:
 	// IBouncable
 	virtual void Bounced_Implementation() override;
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveOnBounced();
+	
 	// IDestructible
 	virtual void Destruct_Implementation() override;
 	
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveOnDestruct();
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBrickDestruct, ABrick_Base*, InBrick);
 	FOnBrickDestruct OnBrickDestruct;
