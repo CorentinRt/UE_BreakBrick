@@ -63,18 +63,41 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 	int TempXSize = Datas->TotalX;
 	int TempYSize = Datas->TotalY;
 	
+	float BrickSpawnChance = Datas->RandomPercentageSpawnBrick;
+	
 	ABrick_Base* Brick = nullptr;
 	
 	for (int i = 0; i < TempXSize; ++i)
 	{
 		for (int j = 0; j < TempYSize; ++j)
 		{
+			int HalfSize = (TempXSize + 1) / 2;
+			
+			if (i >= HalfSize)
+				continue;
+			
+			if (FMath::FRand() > BrickSpawnChance)
+				continue;
+			
+			int MirroredX = TempXSize - 1 - i;
+			
 			Brick = CreateBrick(i, j);
 			
 			if (!IsValid(Brick))
 			{
-				UE_LOGFMT(LogBreakBrick, Error, "Error : Spawn of brick {0} : {1} failed ! This may cause some issues !");
+				UE_LOGFMT(LogBreakBrick, Error, "Error : Spawn of brick {0} : {1} failed ! This may cause some issues !", i, j);
 				continue;
+			}
+			
+			if (MirroredX != i)
+			{
+				 Brick = CreateBrick(MirroredX, j);
+				
+				if (!IsValid(Brick))
+				{
+					UE_LOGFMT(LogBreakBrick, Error, "Error : Spawn of Mirrored brick {0} : {1} failed ! This may cause some issues !", MirroredX, j);
+					continue;
+				}
 			}
 		}
 	}

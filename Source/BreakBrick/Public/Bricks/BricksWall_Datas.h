@@ -32,6 +32,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Bricks Wall")
 	int TotalY = 7;
 	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Bricks Wall")
+	float RandomPercentageSpawnBrick = 0.8f;
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Bricks BP Classes")
 	TMap<EBrickID, TSubclassOf<ABrick_Base>> BricksIdToSubClasses;
 	
