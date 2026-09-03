@@ -3,13 +3,11 @@
 
 #include "Game/GameMode_BB.h"
 
-#include "BreakBrick.h"
-#include "Ball/Ball_BB.h"
+#include "Ball/BallsWorldSubsystem.h"
 #include "Bricks/BricksWallWorldSubsystem.h"
 #include "Bricks/Brick_Base.h"
-#include "Bricks/Datas/BrickDatas_Base.h"
+#include "Ball/Ball_BB.h"
 #include "Camera/CameraWorldSubsystem.h"
-#include "Kismet/GameplayStatics.h"
 #include "Score/ScoreWorldSubsystem.h"
 
 void AGameMode_BB::BeginPlay()
@@ -23,11 +21,11 @@ void AGameMode_BB::InitSubsystems()
 {
 	InitCameraWorldSubsystem();
 	
+	InitBallsSubsystem();
+	
 	InitBricksWallSubsystem();
 	
 	InitScoreSubsystem();
-	
-	InitMainBall();
 	
 	ReceiveInitSubsystems();
 }
@@ -74,42 +72,17 @@ void AGameMode_BB::InitScoreSubsystem()
 	ScoreWorldSubsystem->Init();
 }
 
-void AGameMode_BB::InitMainBall()
-{
-	GetMainBall();
-	
-	if (!IsValid(MainBall))
-		return;
-	
-	MainBall->Init();
-}
-
-void AGameMode_BB::GetMainBall()
+void AGameMode_BB::InitBallsSubsystem()
 {
 	if (!GetWorld())
 		return;
 	
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsWithTag(GetWorld(), MainBallTag, FoundActors);
+	BallsWorldSubsystem = GetWorld()->GetSubsystem<UBallsWorldSubsystem>();
 	
-	if (!FoundActors.IsEmpty())
-	{
-		for (AActor* FoundActor : FoundActors)
-		{
-			if (FoundActor == nullptr)
-				continue;
-
-			MainBall = Cast<ABall_BB>(FoundActor);
-
-			if (MainBall != nullptr)
-				break;
-		}
-	}
+	if (!IsValid(BallsWorldSubsystem))
+		return;
 	
-	if (!IsValid(MainBall))
-	{
-		UE_LOGFMT(LogBreakBrick, Error, "Error : No Main Ball Found in the Level ! Ball won't launch and game won't work !");
-	}
+	BallsWorldSubsystem->Init();
 }
 
 void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
@@ -134,12 +107,22 @@ void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
     ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnBounced());
 }
 
-void AGameMode_BB::StartGame()
+ABall_BB* AGameMode_BB::StartGame(bool InSpawnFirstBall, bool InDirectlyInitFirstBall)
 {
 	if (!IsValid(BricksWallWorldSubsystem))
-		return;
+		return nullptr;
 	
 	BricksWallWorldSubsystem->GenerateNewBricksWall();
+	
+	ABall_BB* CreatedBall = nullptr;
+	
+	if (InSpawnFirstBall)
+	{
+		if (!IsValid(BallsWorldSubsystem))
+			return nullptr;
+		
+		CreatedBall = BallsWorldSubsystem->CreateNewBall(InDirectlyInitFirstBall);
+	}
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -147,4 +130,6 @@ void AGameMode_BB::StartGame()
 		FColor::Orange,
 		"Start Game !"
 		);
+	
+	return CreatedBall;
 }

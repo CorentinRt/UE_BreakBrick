@@ -50,8 +50,10 @@ void ABall_BB::Init()
 	
 	bHasInit = true;
 	
-	if (IsValid(Datas))
+	if (IsValid(Datas) && IsValid(ProjectileMovement))
 	{
+		FireInDirection(FVector::UpVector);
+		
 		ProjectileMovement->InitialSpeed = Datas->InitialSpeed;
 		ProjectileMovement->MaxSpeed = Datas->MaxSpeed;
 	}

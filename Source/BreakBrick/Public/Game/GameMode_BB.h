@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameMode_BB.generated.h"
 
+class UBallsWorldSubsystem;
 class ABrick_Base;
 class ABall_BB;
 class UBricksWallWorldSubsystem;
@@ -40,13 +41,10 @@ protected:
 	void InitScoreSubsystem();
 	
 	UFUNCTION()
-	void InitMainBall();
+	void InitBallsSubsystem();
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void ReceiveInitSubsystems();
-	
-	UFUNCTION()
-	void GetMainBall();
 	
 private:
 	
@@ -57,9 +55,13 @@ private:
 	TObjectPtr<UScoreWorldSubsystem> ScoreWorldSubsystem;
 	
 	
-	UPROPERTY()
-	FName MainBallTag = "MainBall";
+public:
 	
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<UBallsWorldSubsystem> BallsWorldSubsystem;
+	
+	
+private:
 	
 	UFUNCTION()
 	void ReactOnOneBrickDestruct(ABrick_Base* InBrick);
@@ -70,8 +72,6 @@ private:
 public:
 	
 	UFUNCTION(BlueprintCallable)
-	void StartGame();
+	ABall_BB* StartGame(bool InSpawnFirstBall = true, bool InDirectlyInitFirstBall = false);
 	
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	TObjectPtr<ABall_BB> MainBall;
 };

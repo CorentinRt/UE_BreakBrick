@@ -72,10 +72,10 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 			Brick = CreateBrick(i, j);
 			
 			if (!IsValid(Brick))
+			{
+				UE_LOGFMT(LogBreakBrick, Error, "Error : Spawn of brick {0} : {1} failed ! This may cause some issues !");
 				continue;
-				
-			AllBricks.Add(Brick);
-			BindBrickListeners(Brick);
+			}
 		}
 	}
 	
@@ -83,6 +83,9 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 
 ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 {
+	if (!IsValid(Datas))
+		return nullptr;
+	
 	if (Datas->BricksIdToSubClasses.IsEmpty())
 		return nullptr;
 	
@@ -102,15 +105,24 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 	float GapX = InX * Datas->XSpaceBetween;
 	float GapY = InY * Datas->YSpaceBetween;
 	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	
 	switch (BrickIDToCreate)
 	{
 	case EBrickID::SIMPLE:
-		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(BrickWallOrigin.X, GapX + BrickWallOrigin.Y, -GapY + BrickWallOrigin.Z), FRotator::ZeroRotator);
+		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(BrickWallOrigin.X, GapX + BrickWallOrigin.Y, -GapY + BrickWallOrigin.Z), FRotator::ZeroRotator, SpawnParams);
 		break;
 	default:
 		break;
 	}
 	
+	if (!IsValid(Brick))
+		return nullptr;
+				
+	AllBricks.Add(Brick);
+	BindBrickListeners(Brick);
 	
 	return Brick;
 }

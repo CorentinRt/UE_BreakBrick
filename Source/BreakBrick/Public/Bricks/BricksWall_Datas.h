@@ -7,6 +7,7 @@
 #include "Engine/DataAsset.h"
 #include "BricksWall_Datas.generated.h"
 
+class ABall_BB;
 class ABrick_Base;
 
 /**
@@ -33,5 +34,8 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Bricks BP Classes")
 	TMap<EBrickID, TSubclassOf<ABrick_Base>> BricksIdToSubClasses;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Balls")
+	TSubclassOf<ABall_BB> BallSubclass;
 	
 };
