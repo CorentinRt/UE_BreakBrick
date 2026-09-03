@@ -6,6 +6,8 @@
 #include "BreakBrick.h"
 #include "Ball/Ball_BB.h"
 #include "Bricks/BricksWallWorldSubsystem.h"
+#include "Bricks/Brick_Base.h"
+#include "Bricks/Datas/BrickDatas_Base.h"
 #include "Camera/CameraWorldSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Score/ScoreWorldSubsystem.h"
@@ -105,6 +107,17 @@ void AGameMode_BB::GetMainBall()
 	{
 		UE_LOGFMT(LogBreakBrick, Error, "Error : No Main Ball Found in the Level ! Ball won't launch and game won't work !");
 	}
+}
+
+void AGameMode_BB::ReactOnOneBrickDestruct(const ABrick_Base* InBrick)
+{
+	if (!IsValid(InBrick))
+		return;
+	
+	if (!IsValid(ScoreWorldSubsystem))
+		return;
+	
+	ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnDestruct());
 }
 
 void AGameMode_BB::StartGame()

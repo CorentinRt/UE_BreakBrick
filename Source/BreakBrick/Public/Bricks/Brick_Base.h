@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 #include "Brick_Base.generated.h"
 
+class UBrickDatas_Base;
 class UBoxComponent;
 
 UCLASS()
@@ -31,6 +32,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EBrickID BrickID;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UBrickDatas_Base> Datas;
+	
+	UFUNCTION(BlueprintPure)
+	int GetScoreOnBounced() const;
+	
+	UFUNCTION(BlueprintPure)
+	int GetScoreOnDestruct() const;
+	
 public:
 	
 	// IBouncable
@@ -48,6 +58,10 @@ public:
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBrickDestruct, ABrick_Base*, InBrick);
 	FOnBrickDestruct OnBrickDestruct;
+	
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBrickBounced, ABrick_Base*, InBrick);
+	FOnBrickBounced OnBrickBounced;
 	
 public:
 	

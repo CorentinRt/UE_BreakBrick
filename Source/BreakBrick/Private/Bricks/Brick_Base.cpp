@@ -3,6 +3,7 @@
 
 #include "Public/Bricks/Brick_Base.h"
 
+#include "Bricks/Datas/BrickDatas_Base.h"
 #include "Components/BoxComponent.h"
 
 
@@ -32,9 +33,30 @@ void ABrick_Base::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+int ABrick_Base::GetScoreOnBounced() const
+{
+	if (!IsValid(Datas))
+		return 0;
+	
+	return Datas->ScoreOnBounced;
+}
+
+int ABrick_Base::GetScoreOnDestruct() const
+{
+	if (!IsValid(Datas))
+		return 0;
+	
+	return Datas->ScoreOnDestruct;
+}
+
 void ABrick_Base::Bounced_Implementation()
 {
 	IBouncable::Bounced_Implementation();
+	
+	if (!IsValid(this))
+		return;
+	
+	OnBrickBounced.Broadcast(this);
 	
 	ReceiveOnBounced();
 }
@@ -55,6 +77,5 @@ void ABrick_Base::Destruct_Implementation()
 		this->Destroy();
 		return;
 	}
-	
 }
 

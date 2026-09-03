@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameMode_BB.generated.h"
 
+class ABrick_Base;
 class ABall_BB;
 class UBricksWallWorldSubsystem;
 class UScoreWorldSubsystem;
@@ -60,11 +61,13 @@ private:
 	FName MainBallTag = "MainBall";
 	
 	
+	UFUNCTION()
+	void ReactOnOneBrickDestruct(const ABrick_Base* InBrick);
+	
 public:
 	
 	UFUNCTION(BlueprintCallable)
 	void StartGame();
-	
 	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TObjectPtr<ABall_BB> MainBall;

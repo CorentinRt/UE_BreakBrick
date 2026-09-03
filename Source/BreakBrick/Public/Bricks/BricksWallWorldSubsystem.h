@@ -51,10 +51,13 @@ public:
 	void ReceiveBrickDestruct(ABrick_Base* InBrick);
 	
 	UFUNCTION(BlueprintCallable)
-	void AddBrickDestructListener(ABrick_Base* InBrick);
+	void ReceiveBrickBounced(ABrick_Base* InBrick);
 	
 	UFUNCTION(BlueprintCallable)
-	void RemoveBrickDestructListener(ABrick_Base* InBrick);
+	void BindBrickListeners(ABrick_Base* InBrick);
+	
+	UFUNCTION(BlueprintCallable)
+	void UnbindBrickListeners(ABrick_Base* InBrick);
 	
 	UFUNCTION(BlueprintCallable)
 	void ClearBricksWall();
@@ -62,8 +65,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool AllBricksAreDestroyed();
 	
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOneBrickDestruct);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnOneBrickDestruct, ABrick_Base*, InBrick);
 	FOnOneBrickDestruct OnOneBrickDestruct;
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnOneBrickBounced, ABrick_Base*, InBrick);
+	FOnOneBrickBounced OnOneBrickBounced;
 	
 private:
 	

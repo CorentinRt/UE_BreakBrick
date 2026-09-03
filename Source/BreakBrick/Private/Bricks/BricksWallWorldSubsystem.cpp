@@ -75,7 +75,7 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 				continue;
 				
 			AllBricks.Add(Brick);
-			AddBrickDestructListener(Brick);
+			BindBrickListeners(Brick);
 		}
 	}
 	
@@ -117,19 +117,26 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 
 void UBricksWallWorldSubsystem::ReceiveBrickDestruct(ABrick_Base* InBrick)
 {
-	RemoveBrickDestructListener(InBrick);
+	UnbindBrickListeners(InBrick);
 	
-	OnOneBrickDestruct.Broadcast();
+	OnOneBrickDestruct.Broadcast(InBrick);
 }
 
-void UBricksWallWorldSubsystem::AddBrickDestructListener(ABrick_Base* InBrick)
+void UBricksWallWorldSubsystem::ReceiveBrickBounced(ABrick_Base* InBrick)
+{
+	OnOneBrickBounced.Broadcast(InBrick);
+}
+
+void UBricksWallWorldSubsystem::BindBrickListeners(ABrick_Base* InBrick)
 {
 	InBrick->OnBrickDestruct.AddDynamic(this, &UBricksWallWorldSubsystem::ReceiveBrickDestruct);
+	InBrick->OnBrickBounced.AddDynamic(this, &UBricksWallWorldSubsystem::ReceiveBrickBounced);
 }
 
-void UBricksWallWorldSubsystem::RemoveBrickDestructListener(ABrick_Base* InBrick)
+void UBricksWallWorldSubsystem::UnbindBrickListeners(ABrick_Base* InBrick)
 {
 	InBrick->OnBrickDestruct.RemoveDynamic(this, &UBricksWallWorldSubsystem::ReceiveBrickDestruct);
+	InBrick->OnBrickBounced.RemoveDynamic(this, &UBricksWallWorldSubsystem::ReceiveBrickBounced);
 }
 
 void UBricksWallWorldSubsystem::ClearBricksWall()
@@ -141,7 +148,7 @@ void UBricksWallWorldSubsystem::ClearBricksWall()
 		if (!IsValid(Brick))
 			continue;
 		
-		RemoveBrickDestructListener(Brick);
+		UnbindBrickListeners(Brick);
 		
 		Brick->Destroy();
 	}

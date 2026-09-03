@@ -1,4 +1,4 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Bricks/BricksWall_Datas.h"
+#include "Bricks/Datas/BrickDatas_Base.h"
