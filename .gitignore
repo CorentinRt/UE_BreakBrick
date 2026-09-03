@@ -59,6 +59,13 @@ Binaries/Win64/*
 !Binaries/Win64/*.modules
 !Binaries/Win64/*.dll
 
+# Plugins
+Plugins/FCTween/Binaries/*
+!Plugins/FCTween/Binaries/Win64
+Plugins/FCTween/Binaries/Win64/*
+!Plugins/FCTween/Binaries/Win64/UnrealEditor.modules
+!Plugins/FCTween/Binaries/Win64/UnrealEditor-FCTween.dll
+
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/
 Build/*/**

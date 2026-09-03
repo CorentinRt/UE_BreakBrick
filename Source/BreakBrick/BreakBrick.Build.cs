@@ -19,7 +19,8 @@ public class BreakBrick : ModuleRules
 			"GameplayStateTreeModule",
 			"UMG",
 			"Slate",
-			"DeveloperSettings"
+			"DeveloperSettings",
+			"FCTween"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
