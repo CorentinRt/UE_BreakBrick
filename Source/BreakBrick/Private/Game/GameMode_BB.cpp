@@ -96,17 +96,6 @@ void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 		return;
 	
 	ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnDestruct());
-}
-
-void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
-{
-	if (!IsValid(InBrick))
-    		return;
-    	
-    if (!IsValid(ScoreWorldSubsystem))
-    	return;
-	
-    ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnBounced());
 	
 	if (!IsValid(BricksWallWorldSubsystem))
 		return;
@@ -119,6 +108,17 @@ void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
 	{
 		
 	}
+}
+
+void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
+{
+	if (!IsValid(InBrick))
+    		return;
+    	
+    if (!IsValid(ScoreWorldSubsystem))
+    	return;
+	
+    ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnBounced());
 }
 
 void AGameMode_BB::ReactOnOneBallDestruct(ABall_BB* InBall)
