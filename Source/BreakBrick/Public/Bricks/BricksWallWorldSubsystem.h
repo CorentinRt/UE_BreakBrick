@@ -6,6 +6,7 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "BricksWallWorldSubsystem.generated.h"
 
+class ABricksWallStart;
 class UBricksWall_Datas;
 class ABrick_Base;
 
@@ -70,4 +71,18 @@ private:
 	TArray<TObjectPtr<ABrick_Base>> AllBricks;
 	
 	bool bHasBeenInit = false;
+	
+	UFUNCTION()
+	void GetBrickWallStartActor();
+	
+	UFUNCTION()
+	FVector GetBrickWallStartLocation() const;
+	
+	UPROPERTY()
+	TObjectPtr<ABricksWallStart> BrickWallStart;
+	
+	UPROPERTY()
+	FName BrickWallStartTag = "BrickWallStart";
+	
+	
 };

@@ -3,9 +3,12 @@
 
 #include "Bricks/BricksWallWorldSubsystem.h"
 
+#include "BreakBrick.h"
+#include "Bricks/BricksWallStart.h"
 #include "Bricks/BricksWall_Datas.h"
 #include "Bricks/BricksWall_Settings.h"
 #include "Bricks/Brick_Base.h"
+#include "Kismet/GameplayStatics.h"
 
 void UBricksWallWorldSubsystem::PostInitialize()
 {
@@ -31,6 +34,8 @@ void UBricksWallWorldSubsystem::Init()
 		return;
 	
 	LoadBricksWallDatasFromConfig();
+	
+	GetBrickWallStartActor();
 	
 	ClearBricksWall();
 }
@@ -92,13 +97,15 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 		return nullptr;
 	}
 	
+	FVector BrickWallOrigin = GetBrickWallStartLocation();
+	
 	float GapX = InX * Datas->XSpaceBetween;
-	float GapY = -InY * Datas->YSpaceBetween;
+	float GapY = InY * Datas->YSpaceBetween;
 	
 	switch (BrickIDToCreate)
 	{
 	case EBrickID::SIMPLE:
-		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(0.f, GapX, GapY), FRotator::ZeroRotator);
+		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(BrickWallOrigin.X, GapX + BrickWallOrigin.Y, -GapY + BrickWallOrigin.Z), FRotator::ZeroRotator);
 		break;
 	default:
 		break;
@@ -156,4 +163,40 @@ bool UBricksWallWorldSubsystem::AllBricksAreDestroyed()
 	}
 	
 	return true;
+}
+
+void UBricksWallWorldSubsystem::GetBrickWallStartActor()
+{
+	if (!GetWorld())
+		return;
+	
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), BrickWallStartTag, FoundActors);
+	
+	if (!FoundActors.IsEmpty())
+	{
+		for (AActor* FoundActor : FoundActors)
+		{
+			if (FoundActor == nullptr)
+				continue;
+
+			BrickWallStart = Cast<ABricksWallStart>(FoundActor);
+
+			if (BrickWallStart != nullptr)
+				break;
+		}
+	}
+	
+	if (!IsValid(BrickWallStart))
+	{
+		UE_LOGFMT(LogBreakBrick, Error, "Error : No BrickWallStart  Found in the Level ! Brick Wall won't generate at right location !");
+	}
+}
+
+FVector UBricksWallWorldSubsystem::GetBrickWallStartLocation() const
+{
+	if (!IsValid(BrickWallStart))
+		return FVector::ZeroVector;
+		
+	return BrickWallStart->GetActorLocation();
 }
