@@ -62,7 +62,10 @@ private:
 	
 	
 	UFUNCTION()
-	void ReactOnOneBrickDestruct(const ABrick_Base* InBrick);
+	void ReactOnOneBrickDestruct(ABrick_Base* InBrick);
+	
+	UFUNCTION()
+	void ReactOnOneBrickBounced(ABrick_Base* InBrick);
 	
 public:
 	

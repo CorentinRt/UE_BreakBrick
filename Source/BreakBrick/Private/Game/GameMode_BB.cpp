@@ -55,6 +55,9 @@ void AGameMode_BB::InitBricksWallSubsystem()
 	if (!IsValid(BricksWallWorldSubsystem))
 		return;
 	
+	BricksWallWorldSubsystem->OnOneBrickDestruct.AddDynamic(this, &AGameMode_BB::ReactOnOneBrickDestruct);
+	BricksWallWorldSubsystem->OnOneBrickBounced.AddDynamic(this, &AGameMode_BB::ReactOnOneBrickBounced);
+	
 	BricksWallWorldSubsystem->Init();
 }
 
@@ -109,7 +112,7 @@ void AGameMode_BB::GetMainBall()
 	}
 }
 
-void AGameMode_BB::ReactOnOneBrickDestruct(const ABrick_Base* InBrick)
+void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 {
 	if (!IsValid(InBrick))
 		return;
@@ -118,6 +121,17 @@ void AGameMode_BB::ReactOnOneBrickDestruct(const ABrick_Base* InBrick)
 		return;
 	
 	ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnDestruct());
+}
+
+void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
+{
+	if (!IsValid(InBrick))
+    		return;
+    	
+    if (!IsValid(ScoreWorldSubsystem))
+    	return;
+	
+    ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnBounced());
 }
 
 void AGameMode_BB::StartGame()
