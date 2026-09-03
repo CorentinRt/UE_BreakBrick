@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Bouncable/Bouncable.h"
+#include "Destructible/Destructible.h"
 #include "GameFramework/Actor.h"
 #include "Ball_BB.generated.h"
 
@@ -11,7 +13,7 @@ class USphereComponent;
 class UProjectileMovementComponent;
 
 UCLASS()
-class BREAKBRICK_API ABall_BB : public AActor
+class BREAKBRICK_API ABall_BB : public AActor, public IDestructible, public IBouncable
 {
 	GENERATED_BODY()
 
@@ -59,10 +61,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UBallDatas_BB> Datas;
 	
+	
+	// IBouncable
+	void Bounced_Implementation() override;
+	
+	// IDestructible
+	void Destruct_Implementation() override;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveOnBounced();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveOnDestruct();
+	
+	
 public:
 	
 	UFUNCTION(BlueprintCallable)
 	void FireInDirection(const FVector& InDirection);
 	
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBallDestruct, ABall_BB*, InBall);
+	FOnBallDestruct OnBallDestruct;
+	
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBallBounced, ABall_BB*, InBall);
+	FOnBallBounced OnBallBounced;
 	
 };

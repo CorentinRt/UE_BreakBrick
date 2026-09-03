@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFinished/GameFinishedID.h"
 #include "GameFramework/GameModeBase.h"
 #include "GameMode_BB.generated.h"
 
@@ -60,6 +61,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UBallsWorldSubsystem> BallsWorldSubsystem;
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveGameFinished(EGameFinishedID InGameFinishedID);
 	
 private:
 	
@@ -68,6 +71,9 @@ private:
 	
 	UFUNCTION()
 	void ReactOnOneBrickBounced(ABrick_Base* InBrick);
+	
+	UFUNCTION()
+	void ReactOnOneBallDestruct(ABall_BB* InBall);
 	
 public:
 	

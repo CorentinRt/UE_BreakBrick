@@ -29,6 +29,8 @@ void UBallsWorldSubsystem::ClearBalls()
 		if (!IsValid(Ball))
 			continue;
 		
+		UnbindBallListeners(Ball);
+		
 		Ball->Destroy();
 	}
 	
@@ -67,6 +69,7 @@ void UBallsWorldSubsystem::FindExistingBalls()
 				break;
 			
 			AllBalls.Add(Ball);
+			BindBallListeners(Ball);
 		}
 	}
 }
@@ -114,6 +117,7 @@ ABall_BB* UBallsWorldSubsystem::CreateNewBall(bool InDirectlyInitBall)
 		return nullptr;
 	
 	AllBalls.Add(Ball);
+	BindBallListeners(Ball);
 	
 	if (InDirectlyInitBall)
 	{
@@ -128,7 +132,37 @@ void UBallsWorldSubsystem::ReceiveBallDestruct(ABall_BB* InBall)
 	if (!IsValid(InBall))
 		return;
 	
+	UnbindBallListeners(InBall);
+	
+	AllBalls.Remove(InBall);
+	
 	OnOneBallDestruct.Broadcast(InBall);
+}
+
+void UBallsWorldSubsystem::ReceiveBallBounced(ABall_BB* InBall)
+{
+	if (!IsValid(InBall))
+		return;
+	
+	OnOneBallBounced.Broadcast(InBall);
+}
+
+bool UBallsWorldSubsystem::AllBricksAreDestroyed()
+{
+	if (AllBalls.IsEmpty())
+		return true;
+	
+	for (int i = 0; i < AllBalls.Num(); ++i)
+	{
+		ABall_BB* Ball = AllBalls[i];
+		
+		if (!IsValid(Ball))
+			continue;
+		
+		return false;
+	}
+	
+	return true;
 }
 
 FVector UBallsWorldSubsystem::GetBallSpawnPointLocation() const
@@ -139,17 +173,20 @@ FVector UBallsWorldSubsystem::GetBallSpawnPointLocation() const
 	return BallSpawnPoint->GetActorLocation();
 }
 
-void UBallsWorldSubsystem::ClearAllBalls()
+void UBallsWorldSubsystem::BindBallListeners(ABall_BB* InBall)
 {
-	for (int i = 0; i < AllBalls.Num(); ++i)
-	{
-		ABall_BB* Ball = AllBalls[i];
-		
-		if (!IsValid(Ball))
-			continue;
-		
-		Ball->Destroy();
-	}
+	if (!IsValid(InBall))
+		return;
 	
-	AllBalls.Empty();
+	InBall->OnBallDestruct.AddDynamic(this, &UBallsWorldSubsystem::ReceiveBallDestruct);
+	InBall->OnBallBounced.AddDynamic(this, &UBallsWorldSubsystem::ReceiveBallBounced);
+}
+
+void UBallsWorldSubsystem::UnbindBallListeners(ABall_BB* InBall)
+{
+	if (!IsValid(InBall))
+		return;
+	
+	InBall->OnBallDestruct.RemoveDynamic(this, &UBallsWorldSubsystem::ReceiveBallDestruct);
+	InBall->OnBallBounced.RemoveDynamic(this, &UBallsWorldSubsystem::ReceiveBallBounced);
 }

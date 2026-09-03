@@ -129,7 +129,12 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 
 void UBricksWallWorldSubsystem::ReceiveBrickDestruct(ABrick_Base* InBrick)
 {
+	if (!IsValid(InBrick))
+		return;
+	
 	UnbindBrickListeners(InBrick);
+	
+	AllBricks.Remove(InBrick);
 	
 	OnOneBrickDestruct.Broadcast(InBrick);
 }

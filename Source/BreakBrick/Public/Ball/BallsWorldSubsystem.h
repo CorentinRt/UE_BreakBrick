@@ -23,7 +23,7 @@ public:
 	UFUNCTION()
 	void Init();
 	
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ClearBalls();
 	
 	UFUNCTION()
@@ -41,8 +41,18 @@ public:
 	UFUNCTION()
 	void ReceiveBallDestruct(ABall_BB* InBall);
 	
+	UFUNCTION()
+	void ReceiveBallBounced(ABall_BB* InBall);
+	
+	UFUNCTION(BlueprintCallable)
+	bool AllBricksAreDestroyed();
+	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnOneBallDestruct, ABall_BB*, InBall);
 	FOnOneBallDestruct OnOneBallDestruct;
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnOneBallBounced, ABall_BB*, InBall);
+	FOnOneBallBounced OnOneBallBounced;
+	
 	
 	UFUNCTION(BlueprintPure)
 	FVector GetBallSpawnPointLocation() const;
@@ -50,7 +60,10 @@ public:
 private:
 	
 	UFUNCTION()
-	void ClearAllBalls();
+	void BindBallListeners(ABall_BB* InBall);
+	
+	UFUNCTION()
+	void UnbindBallListeners(ABall_BB* InBall);
 	
 	UPROPERTY()
 	TArray<ABall_BB*> AllBalls;

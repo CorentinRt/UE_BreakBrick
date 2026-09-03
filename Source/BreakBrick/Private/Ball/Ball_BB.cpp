@@ -59,6 +59,36 @@ void ABall_BB::Init()
 	}
 }
 
+void ABall_BB::Bounced_Implementation()
+{
+	IBouncable::Bounced_Implementation();
+	
+	if (!IsValid(this))
+		return;
+	
+	OnBallBounced.Broadcast(this);
+	
+	ReceiveOnBounced();
+}
+
+void ABall_BB::Destruct_Implementation()
+{
+	IDestructible::Destruct_Implementation();
+	
+	if (!IsValid(this))
+		return;
+	
+	OnBallDestruct.Broadcast(this);
+	
+	ReceiveOnDestruct();
+	
+	if (IsValid(this))
+	{
+		this->Destroy();
+		return;
+	}
+}
+
 void ABall_BB::FireInDirection(const FVector& InDirection)
 {
 	if (!IsValid(ProjectileMovement))

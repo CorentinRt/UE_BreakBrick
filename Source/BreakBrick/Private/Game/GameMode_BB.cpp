@@ -82,6 +82,8 @@ void AGameMode_BB::InitBallsSubsystem()
 	if (!IsValid(BallsWorldSubsystem))
 		return;
 	
+	BallsWorldSubsystem->OnOneBallDestruct.AddDynamic(this, &AGameMode_BB::ReactOnOneBallDestruct);
+	
 	BallsWorldSubsystem->Init();
 }
 
@@ -105,6 +107,33 @@ void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
     	return;
 	
     ScoreWorldSubsystem->AddScore(InBrick->GetScoreOnBounced());
+	
+	if (!IsValid(BricksWallWorldSubsystem))
+		return;
+	
+	if (BricksWallWorldSubsystem->AllBricksAreDestroyed())
+	{
+		ReceiveGameFinished(EGameFinishedID::ALL_BRICKS_DESTROYED);
+	}
+	else
+	{
+		
+	}
+}
+
+void AGameMode_BB::ReactOnOneBallDestruct(ABall_BB* InBall)
+{
+	if (!IsValid(BallsWorldSubsystem))
+		return;
+	
+	if (BallsWorldSubsystem->AllBricksAreDestroyed())
+	{
+		ReceiveGameFinished(EGameFinishedID::ALL_BALLS_DESTROYED);
+	}
+	else
+	{
+		
+	}
 }
 
 ABall_BB* AGameMode_BB::StartGame(bool InSpawnFirstBall, bool InDirectlyInitFirstBall)
