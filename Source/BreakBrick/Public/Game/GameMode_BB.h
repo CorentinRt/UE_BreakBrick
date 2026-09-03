@@ -8,6 +8,8 @@
 
 class ABall_BB;
 class UBricksWallWorldSubsystem;
+class UScoreWorldSubsystem;
+
 /**
  * 
  */
@@ -34,6 +36,9 @@ protected:
 	void InitBricksWallSubsystem();
 	
 	UFUNCTION()
+	void InitScoreSubsystem();
+	
+	UFUNCTION()
 	void InitMainBall();
 	
 	UFUNCTION(BlueprintImplementableEvent)
@@ -45,7 +50,11 @@ protected:
 private:
 	
 	UPROPERTY()
-	UBricksWallWorldSubsystem* BricksWallWorldSubsystem;
+	TObjectPtr<UBricksWallWorldSubsystem> BricksWallWorldSubsystem;
+	
+	UPROPERTY()
+	TObjectPtr<UScoreWorldSubsystem> ScoreWorldSubsystem;
+	
 	
 	UPROPERTY()
 	FName MainBallTag = "MainBall";

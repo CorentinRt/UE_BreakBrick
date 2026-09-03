@@ -8,6 +8,7 @@
 #include "Bricks/BricksWallWorldSubsystem.h"
 #include "Camera/CameraWorldSubsystem.h"
 #include "Kismet/GameplayStatics.h"
+#include "Score/ScoreWorldSubsystem.h"
 
 void AGameMode_BB::BeginPlay()
 {
@@ -22,6 +23,8 @@ void AGameMode_BB::InitSubsystems()
 	
 	InitBricksWallSubsystem();
 	
+	InitScoreSubsystem();
+	
 	InitMainBall();
 	
 	ReceiveInitSubsystems();
@@ -34,7 +37,7 @@ void AGameMode_BB::InitCameraWorldSubsystem()
 	
 	UCameraWorldSubsystem* CameraWorldSubsystem = GetWorld()->GetSubsystem<UCameraWorldSubsystem>();
 	
-	if (!CameraWorldSubsystem)
+	if (!IsValid(CameraWorldSubsystem))
 		return;
 	
 	CameraWorldSubsystem->Init();
@@ -51,6 +54,19 @@ void AGameMode_BB::InitBricksWallSubsystem()
 		return;
 	
 	BricksWallWorldSubsystem->Init();
+}
+
+void AGameMode_BB::InitScoreSubsystem()
+{
+	if (!GetWorld())
+		return;
+	
+	ScoreWorldSubsystem = GetWorld()->GetSubsystem<UScoreWorldSubsystem>();
+	
+	if (!IsValid(ScoreWorldSubsystem))
+		return;
+	
+	ScoreWorldSubsystem->Init();
 }
 
 void AGameMode_BB::InitMainBall()
