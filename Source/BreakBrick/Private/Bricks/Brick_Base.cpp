@@ -72,7 +72,7 @@ void ABrick_Base::Destruct_Implementation()
 	
 	ReceiveOnDestruct();
 	
-	if (IsValid(this))
+	if (bDestroyImmediatlyOnDestruct && IsValid(this))
 	{
 		this->Destroy();
 		return;

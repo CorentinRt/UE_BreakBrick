@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UBrickDatas_Base> Datas;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool bDestroyImmediatlyOnDestruct = false;
+	
 	UFUNCTION(BlueprintPure)
 	int GetScoreOnBounced() const;
 	
@@ -51,7 +54,6 @@ public:
 	
 	// IDestructible
 	virtual void Destruct_Implementation() override;
-	
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void ReceiveOnDestruct();
