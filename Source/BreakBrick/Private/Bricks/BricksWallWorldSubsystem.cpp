@@ -114,7 +114,13 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 	
 	EBrickID BrickIDToCreate = EBrickID::SIMPLE;
 	
-	ABrick_Base* Brick = nullptr;
+	float RandomBrickID = FMath::FRand();
+	
+	if (RandomBrickID <= Datas->AddOneBallProbability)
+	{
+		BrickIDToCreate = EBrickID::ADD_NEW_BALL;
+	}
+	
 	
 	const TSubclassOf<ABrick_Base>* BrickClass = Datas->BricksIdToSubClasses.Find(BrickIDToCreate);
 	
@@ -131,15 +137,9 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
+	FVector SpawnLocation = FVector(BrickWallOrigin.X, GapX + BrickWallOrigin.Y, -GapY + BrickWallOrigin.Z);
 	
-	switch (BrickIDToCreate)
-	{
-	case EBrickID::SIMPLE:
-		Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, FVector(BrickWallOrigin.X, GapX + BrickWallOrigin.Y, -GapY + BrickWallOrigin.Z), FRotator::ZeroRotator, SpawnParams);
-		break;
-	default:
-		break;
-	}
+	ABrick_Base* Brick = GetWorld()->SpawnActor<ABrick_Base>(*BrickClass, SpawnLocation, FRotator::ZeroRotator, SpawnParams);
 	
 	if (!IsValid(Brick))
 		return nullptr;

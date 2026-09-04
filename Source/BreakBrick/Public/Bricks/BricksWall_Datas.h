@@ -38,6 +38,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Bricks BP Classes")
 	TMap<EBrickID, TSubclassOf<ABrick_Base>> BricksIdToSubClasses;
 	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
+	float AddOneBallProbability = 0.05f;
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Balls")
 	TSubclassOf<ABall_BB> BallSubclass;
 	
