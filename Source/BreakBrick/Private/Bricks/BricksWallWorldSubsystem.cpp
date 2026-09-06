@@ -196,7 +196,7 @@ void UBricksWallWorldSubsystem::ClearBricksWall()
 	AllBricks.Empty();
 }
 
-bool UBricksWallWorldSubsystem::AllBricksAreDestroyed()
+bool UBricksWallWorldSubsystem::AllBricksAreDestroyed() const
 {
 	if (AllBricks.IsEmpty())
 		return true;

@@ -62,8 +62,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ClearBricksWall();
 	
-	UFUNCTION(BlueprintCallable)
-	bool AllBricksAreDestroyed();
+	UFUNCTION(BlueprintPure)
+	bool AllBricksAreDestroyed() const;
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnOneBrickDestruct, ABrick_Base*, InBrick);
 	FOnOneBrickDestruct OnOneBrickDestruct;
