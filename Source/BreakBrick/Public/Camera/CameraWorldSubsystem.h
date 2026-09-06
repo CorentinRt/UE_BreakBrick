@@ -41,4 +41,10 @@ private:
 	UFUNCTION()
 	void InitMainCamera();
 
+	
+public:
+	
+	UFUNCTION(BlueprintCallable)
+	UCameraShakeBase* PlayCameraShake(TSubclassOf<UCameraShakeBase> InCameraShakeClass, float InScale);
+	
 };

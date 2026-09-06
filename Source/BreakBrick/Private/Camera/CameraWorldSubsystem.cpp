@@ -57,3 +57,18 @@ void UCameraWorldSubsystem::InitMainCamera()
 		UE_LOGFMT(LogBreakBrick, Error, "Error : No Main Camera Found in the Level ! Camera subsystem won't work !");
 	}
 }
+
+UCameraShakeBase* UCameraWorldSubsystem::PlayCameraShake(TSubclassOf<UCameraShakeBase> InCameraShakeClass, float InScale)
+{
+	APlayerController* PC = GetWorld()->GetFirstPlayerController();
+	
+	if (!IsValid(PC))
+		return nullptr;
+	
+	APlayerCameraManager* PlayerCameraManager = PC->PlayerCameraManager;
+	
+	if (!IsValid(PlayerCameraManager))
+		return nullptr;
+	
+	return PlayerCameraManager->StartCameraShake(InCameraShakeClass, InScale);
+}

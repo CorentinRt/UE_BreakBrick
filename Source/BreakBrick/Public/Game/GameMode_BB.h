@@ -77,6 +77,11 @@ private:
 	
 public:
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveOneBrickDestruct(ABrick_Base* InBrick);
+	
+public:
+	
 	UFUNCTION(BlueprintCallable)
 	ABall_BB* StartGame(bool InSpawnFirstBall = true, bool InDirectlyInitFirstBall = false);
 	

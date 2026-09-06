@@ -108,6 +108,8 @@ void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 	{
 		
 	}
+	
+	ReceiveOneBrickDestruct(InBrick);
 }
 
 void AGameMode_BB::ReactOnOneBrickBounced(ABrick_Base* InBrick)
