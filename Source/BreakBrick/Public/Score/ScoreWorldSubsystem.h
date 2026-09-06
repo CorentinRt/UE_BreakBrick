@@ -32,6 +32,7 @@ public:
 	int GetScore() const;
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateScore, int, ScoreValue);
+	UPROPERTY(BlueprintAssignable)
 	FOnUpdateScore OnUpdateScore;
 	
 private:
