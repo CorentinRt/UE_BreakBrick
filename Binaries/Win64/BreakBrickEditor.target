@@ -29774,6 +29774,10 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(ProjectDir)/Plugins/Corentin_REMOT_IIM_TechArt_VFX/Corentin_REMOT_IIM_TechArt_VFX.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(ProjectDir)/Plugins/FCTween/FCTween.uplugin",
 			"Type": "UFS"
 		}
@@ -29847,6 +29851,7 @@
 		"ControlRigModules",
 		"ControlRigPhysics",
 		"ControlRigSpline",
+		"Corentin_REMOT_IIM_TechArt_VFX",
 		"CryptoKeys",
 		"CurveEditorTools",
 		"CustomMeshComponent",
