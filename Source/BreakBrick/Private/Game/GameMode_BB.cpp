@@ -3,6 +3,7 @@
 
 #include "Game/GameMode_BB.h"
 
+#include "Audio/AudioSubsystemBB.h"
 #include "Ball/BallsWorldSubsystem.h"
 #include "Bricks/BricksWallWorldSubsystem.h"
 #include "Bricks/Brick_Base.h"
@@ -19,6 +20,8 @@ void AGameMode_BB::BeginPlay()
 
 void AGameMode_BB::InitSubsystems()
 {
+	InitAudioSubsystem();
+	
 	InitCameraWorldSubsystem();
 	
 	InitBallsSubsystem();
@@ -85,6 +88,21 @@ void AGameMode_BB::InitBallsSubsystem()
 	BallsWorldSubsystem->OnOneBallDestruct.AddDynamic(this, &AGameMode_BB::ReactOnOneBallDestruct);
 	
 	BallsWorldSubsystem->Init();
+}
+
+void AGameMode_BB::InitAudioSubsystem() const
+{
+	UGameInstance* GameInstance = GetGameInstance();
+	
+	if (!IsValid(GameInstance))
+		return;
+	
+	UAudioSubsystemBB* AudioEBSubsystem = GameInstance->GetSubsystem<UAudioSubsystemBB>();
+	
+	if (!IsValid(AudioEBSubsystem))
+		return;
+	
+	AudioEBSubsystem->InitAudioSubsystem();
 }
 
 void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)

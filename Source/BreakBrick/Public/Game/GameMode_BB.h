@@ -44,6 +44,9 @@ protected:
 	UFUNCTION()
 	void InitBallsSubsystem();
 	
+	UFUNCTION()
+	void InitAudioSubsystem() const;
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void ReceiveInitSubsystems();
 	
