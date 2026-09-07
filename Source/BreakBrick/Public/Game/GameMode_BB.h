@@ -105,4 +105,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ABall_BB* StartGame(bool InSpawnFirstBall = true, bool InDirectlyInitFirstBall = false);
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void ReceiveStartGame();
+	
 };

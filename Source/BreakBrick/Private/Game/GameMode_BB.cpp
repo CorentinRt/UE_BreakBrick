@@ -197,5 +197,7 @@ ABall_BB* AGameMode_BB::StartGame(bool InSpawnFirstBall, bool InDirectlyInitFirs
 		"Start Game !"
 		);
 	
+	ReceiveStartGame();
+	
 	return CreatedBall;
 }
