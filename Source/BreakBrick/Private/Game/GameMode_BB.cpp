@@ -105,6 +105,23 @@ void AGameMode_BB::InitAudioSubsystem() const
 	AudioEBSubsystem->InitAudioSubsystem();
 }
 
+int AGameMode_BB::GetCurrentLevel() const
+{
+	return CurrentLevel;
+}
+
+void AGameMode_BB::SetCurrentLevel(int InLevel)
+{
+	CurrentLevel = InLevel;
+	
+	OnUpdateCurrentLevel.Broadcast(CurrentLevel);
+}
+
+void AGameMode_BB::IncrementCurrentLevel()
+{
+	SetCurrentLevel(CurrentLevel + 1);
+}
+
 void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 {
 	if (!IsValid(InBrick))

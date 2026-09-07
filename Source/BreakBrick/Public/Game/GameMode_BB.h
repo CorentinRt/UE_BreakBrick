@@ -59,7 +59,24 @@ private:
 	TObjectPtr<UScoreWorldSubsystem> ScoreWorldSubsystem;
 	
 	
+	UPROPERTY()
+	int CurrentLevel = 1;
+	
 public:
+	
+	UFUNCTION(BlueprintPure)
+	int GetCurrentLevel() const;
+	
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentLevel(int InLevel);
+	
+	UFUNCTION(BlueprintCallable)
+	void IncrementCurrentLevel();
+	
+	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateCurrentLevel, int, InCurrentLevel);
+	UPROPERTY(BlueprintAssignable)
+	FOnUpdateCurrentLevel OnUpdateCurrentLevel;
 	
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UBallsWorldSubsystem> BallsWorldSubsystem;
