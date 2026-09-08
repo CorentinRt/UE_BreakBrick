@@ -122,6 +122,57 @@ void AGameMode_BB::IncrementCurrentLevel()
 	SetCurrentLevel(CurrentLevel + 1);
 }
 
+void AGameMode_BB::RoundFinished(ERoundFinishedID InRoundFinishedID)
+{
+	switch (InRoundFinishedID)
+	{
+		case ERoundFinishedID::ALL_BALLS_DESTROYED:
+		
+			DecrementLifePoint();
+		
+			if (CurrentLifePoint <= 0)
+			{
+				GameFinished(EGameFinishedID::DEFEAT);
+				return;
+			}
+			break;
+		
+		case ERoundFinishedID::ALL_BRICKS_DESTROYED:
+		
+			break;
+	}
+	
+	OnRoundFinished.Broadcast(InRoundFinishedID);
+	
+	ReceiveRoundFinished(InRoundFinishedID);
+}
+
+void AGameMode_BB::GameFinished(EGameFinishedID InGameFinishedID)
+{
+	OnGameFinished.Broadcast(InGameFinishedID);
+	
+	ReceiveGameFinished(InGameFinishedID);
+}
+
+int AGameMode_BB::GetLifePoint() const
+{
+	return CurrentLifePoint;
+}
+
+void AGameMode_BB::SetLifePoint(int InLifePoint)
+{
+	CurrentLifePoint = InLifePoint;
+	
+	OnUpdateLifePoint.Broadcast(CurrentLifePoint);
+	
+	ReceiveUpdateLifePoint();
+}
+
+void AGameMode_BB::DecrementLifePoint()
+{
+	SetLifePoint(CurrentLifePoint - 1);
+}
+
 void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 {
 	if (!IsValid(InBrick))
@@ -137,7 +188,7 @@ void AGameMode_BB::ReactOnOneBrickDestruct(ABrick_Base* InBrick)
 	
 	if (BricksWallWorldSubsystem->AllBricksAreDestroyed())
 	{
-		ReceiveGameFinished(EGameFinishedID::ALL_BRICKS_DESTROYED);
+		RoundFinished(ERoundFinishedID::ALL_BRICKS_DESTROYED);
 	}
 	else
 	{
@@ -165,7 +216,7 @@ void AGameMode_BB::ReactOnOneBallDestruct(ABall_BB* InBall)
 	
 	if (BallsWorldSubsystem->AllBricksAreDestroyed())
 	{
-		ReceiveGameFinished(EGameFinishedID::ALL_BALLS_DESTROYED);
+		RoundFinished(ERoundFinishedID::ALL_BALLS_DESTROYED);
 	}
 	else
 	{

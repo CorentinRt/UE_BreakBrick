@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "GameFinishedID.generated.h"
+#include "RoundFinishedID.generated.h"
 
 /**
  * 
  */
 UENUM(BlueprintType)
-enum class EGameFinishedID : uint8
+enum class ERoundFinishedID : uint8
 {
-	DEFEAT = 0,
-	VICTORY = 1
+	ALL_BRICKS_DESTROYED = 0,
+	ALL_BALLS_DESTROYED = 1
 };
