@@ -14,5 +14,6 @@ enum class EBrickID : uint8
 {
 	SIMPLE = 0,
 	ADD_NEW_BALL = 1,
-	REDUCE_PLAYER = 2
+	REDUCE_PLAYER = 2,
+	ACCELERATE_BALL = 3
 };

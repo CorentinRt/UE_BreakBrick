@@ -97,3 +97,16 @@ void ABall_BB::FireInDirection(const FVector& InDirection)
 	ProjectileMovement->Velocity = InDirection * ProjectileMovement->InitialSpeed;
 }
 
+void ABall_BB::IncrementVelocity(float InAmount)
+{
+	if (!IsValid(ProjectileMovement))
+		return;
+	
+	ProjectileMovement->MaxSpeed += InAmount;
+	ProjectileMovement->InitialSpeed += InAmount;
+	
+	FVector OldVelocity = ProjectileMovement->Velocity;
+	
+	ProjectileMovement->Velocity = OldVelocity.GetSafeNormal() * ProjectileMovement->InitialSpeed;
+}
+

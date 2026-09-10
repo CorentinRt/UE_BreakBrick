@@ -124,6 +124,10 @@ ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
 	{
 		BrickIDToCreate = EBrickID::REDUCE_PLAYER;
 	}
+	else if (RandomBrickID <= Datas->AccelerateBallProbability)
+	{
+		BrickIDToCreate = EBrickID::ACCELERATE_BALL;
+	}
 	
 	const TSubclassOf<ABrick_Base>* BrickClass = Datas->BricksIdToSubClasses.Find(BrickIDToCreate);
 	

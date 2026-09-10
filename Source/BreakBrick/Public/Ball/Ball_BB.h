@@ -81,6 +81,9 @@ public:
 	void FireInDirection(const FVector& InDirection);
 	
 	
+	UFUNCTION(BlueprintCallable)
+	void IncrementVelocity(float InAmount);
+	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBallDestruct, ABall_BB*, InBall);
 	FOnBallDestruct OnBallDestruct;
 	

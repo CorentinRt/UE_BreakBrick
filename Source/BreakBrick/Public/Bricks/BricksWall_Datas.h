@@ -39,10 +39,13 @@ public:
 	TMap<EBrickID, TSubclassOf<ABrick_Base>> BricksIdToSubClasses;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
-	float AddOneBallProbability = 0.05f;
+	float AddOneBallProbability = 0.1f;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
-	float ReducePlayerProbability = 0.1f;
+	float ReducePlayerProbability = 0.2f;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
+	float AccelerateBallProbability = 0.3f;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Balls")
 	TSubclassOf<ABall_BB> BallSubclass;
