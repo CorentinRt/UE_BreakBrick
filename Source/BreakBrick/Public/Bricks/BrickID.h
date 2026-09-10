@@ -13,5 +13,6 @@ UENUM(BlueprintType)
 enum class EBrickID : uint8
 {
 	SIMPLE = 0,
-	ADD_NEW_BALL = 1
+	ADD_NEW_BALL = 1,
+	REDUCE_PLAYER = 2
 };

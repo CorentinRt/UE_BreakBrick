@@ -41,6 +41,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
 	float AddOneBallProbability = 0.05f;
 	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Special Bricks Probabilities")
+	float ReducePlayerProbability = 0.1f;
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Balls")
 	TSubclassOf<ABall_BB> BallSubclass;
 	
