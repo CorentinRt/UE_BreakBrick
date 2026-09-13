@@ -102,6 +102,11 @@ void UBricksWallWorldSubsystem::GenerateNewBricksWall()
 		}
 	}
 	
+	if (AllBricks.IsEmpty())
+	{
+		GenerateNewBricksWall();
+		UE_LOGFMT(LogBreakBrick, Warning, "Had generated a brickless wall ! Auto generate another !");
+	}
 }
 
 ABrick_Base* UBricksWallWorldSubsystem::CreateBrick(int InX, int InY)
